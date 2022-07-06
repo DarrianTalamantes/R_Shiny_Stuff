@@ -56,9 +56,9 @@ ui <- fluidPage(theme = shinytheme("cyborg"),
     sidebarLayout(
       
       sidebarPanel(
-        width = 3,
-        h1("Explore a Dataset"),
-        h2("DIE DIE DIE"),
+        width = 2,  # Controls width of sidebar panel
+        h1("Explore a Dataset"),  # the h# controls how large the text of a is, 1 being the largest
+        h5("DIE DIE DIE"),
         
         # Requires Reactive Programming Knowledge
         # - Taught in Shiny Dashboards (DS4B 102-R)
