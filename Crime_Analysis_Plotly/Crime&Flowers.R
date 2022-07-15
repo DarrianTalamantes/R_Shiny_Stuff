@@ -80,7 +80,7 @@ ui <- dashboardPage(skin = "blue",
                 ),
               box(
                 tags$label(h3('Status/Output')), # Status/Output Text Box
-                verbatimTextOutput('contents'),
+                verbatimTextOutput('message'),
                 tableOutput('tabledata') # Prediction results table
               )
             )
@@ -124,8 +124,8 @@ server <- function(input, output){
   })
   
   # Status/Output Text Box
-  # renderPrint prints words for the Flower Predictor 
-  output$contents <- renderPrint({
+  # renderText prints a string for the Flower Predictor 
+  output$message <- renderText({
     if (input$submitbutton>0) { 
       isolate("Calculation complete.") 
     } else {
