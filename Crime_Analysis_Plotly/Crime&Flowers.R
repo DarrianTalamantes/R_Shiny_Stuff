@@ -3,19 +3,27 @@
 # Email: darrianrtalamantes6@gmail.com
 # Purpose: Redo the crime analysis using plotly to get better visualization
 ########################
-
+# libraries
 library(shiny)
 library(shinydashboard)
 library(ggplot2)
 library(dplyr)
 library(plotly)
 library(lintr)
+library(fontawesome)
+library(htmltools)
+
+# Libraries needed for model.R to work
+library(RCurl) # for downloading the iris CSV file
+library(randomForest)
+library(caret)
 
 # Things generated before UI
 choices <- colnames(USArrests)
 choices <- choices[choices != "UrbanPop"]
 
 # Read in the RF model
+setwd("/home/drt06/Documents/R_Shiny_Stuff/Crime_Analysis_Plotly")
 model <- readRDS("model.rds")
 
 # Training set
@@ -32,7 +40,7 @@ ui <- dashboardPage(skin = "blue",
       id = "tabs",
       menuItem("USA Crime", tabName = "usacrime", icon = icon("eye")),
       # The next icon is from font-awsome, remember you have to use the free ones
-      menuItem("Flower", tabName = "flowers", icon = icon("fa-solid fa-seedling", class = NULL, lib ="font-awesome", verify_fa = FALSE))
+      menuItem("Flower", tabName = "flowers", icon = icon(name = "seedling", class = NULL, lib ="font-awesome", verify_fa = FALSE))
     )
   ),
   dashboardBody(
@@ -115,7 +123,7 @@ server <- function(input, output){
                              input$Petal.Width)),
       stringsAsFactors = FALSE)
     # Create test data 
-    input <- transpose(df)
+    input <- t(df)
     write.table(input,"input.csv", sep=",", quote = FALSE, row.names = FALSE, col.names = FALSE)
     test <- read.csv(paste("input", ".csv", sep=""), header = TRUE)
     Output <- data.frame(Prediction=predict(model,test), round(predict(model,test,type="prob"), 3))
